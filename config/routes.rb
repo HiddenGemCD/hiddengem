@@ -32,8 +32,8 @@ Rails.application.routes.draw do
       #user update a list
 
       resources :users, only: [:create, :destroy] do
-        resources :lists, only: [:index, :show, :update, :create, :destroy] do
-          resources :cards, only: [:index, :show, :update, :create, :destroy]
+        resources :lists, only: [:update, :destroy] do
+          resources :cards, only: [:update, :destroy]
         end
       end
     end
