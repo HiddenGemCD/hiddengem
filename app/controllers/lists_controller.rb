@@ -1,75 +1,54 @@
-class ListsController < ApplicationController
-  before_action :set_list, only: [:show, :edit, :update, :destroy]
-
-  # GET /lists
-  # GET /lists.json
-
+ # app/controllers/api/v1/lists_controller.rb
+ class Api::V1::ListsController < Api::V1::BaseController
+  before_action :set_list, only: [:show, :update, :destroy]
   def index
-    @lists = List.all
-  end
+   @lists = List.all
+ end
 
-  # GET /lists/1
-  # GET /lists/1.json
-  def show
-  end
+ def show
+    # @cards = @list.cards
+    render json: {
+      list: @list,
+      cards: @list.cards
+    }
+ end
 
-  # GET /lists/new
-  def new
-    @list = List.new
-  end
+ def update
+   if @list.update(list_params)
+     render :show
+   else
+     render_error
+   end
+ end
 
-  # GET /lists/1/edit
-  def edit
-  end
+ def destroy
+   @list.destroy
+   head :no_content
+ end
 
-  # POST /lists
-  # POST /lists.json
-  def create
-    @list = List.new(list_params)
+ def create
+   @list = List.new(list_params)
+   if @list.save
+     render :show, status: :created
+   else
+     render_error
+   end
+ end
 
-    respond_to do |format|
-      if @list.save
-        format.html { redirect_to @list, notice: 'List was successfully created.' }
-        format.json { render :show, status: :created, location: @list }
-      else
-        format.html { render :new }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+private
 
-  # PATCH/PUT /lists/1
-  # PATCH/PUT /lists/1.json
-  def update
-    respond_to do |format|
-      if @list.update(list_params)
-        format.html { redirect_to @list, notice: 'List was successfully updated.' }
-        format.json { render :show, status: :ok, location: @list }
-      else
-        format.html { render :edit }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+def set_list
+ @list = List.find(params[:id])
+end
 
-  # DELETE /lists/1
-  # DELETE /lists/1.json
-  def destroy
-    @list.destroy
-    respond_to do |format|
-      format.html { redirect_to lists_url, notice: 'List was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+private
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_list
-      @list = List.find(params[:id])
-    end
+def list_params
+ params.require(:list).permit(:name, :text)
+end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def list_params
-      params.require(:list).permit(:name, :user_id)
-    end
+def render_error
+ render json: { errors: @list.errors.full_messages }, status: :unprocessable_entity
+end
+
 end
