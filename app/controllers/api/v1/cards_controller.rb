@@ -3,10 +3,11 @@
   before_action :set_card, only: [:show, :update, :destroy]
 
   def index
-   @cards = Card.all
-   render json: {
-    cards: @cards
-  }
+    @cards = Card.all
+
+    render json: {
+     cards: @cards
+    }
   end
 
   def show_user_cards
@@ -42,6 +43,7 @@
  def create
    @card = Card.new(card_params)
    @card.user_id = params[:id] if params[:id]
+   @card.avatar_url = User.find(params[:id]).avatar
    if @card.save
      render :show, status: :created
    else

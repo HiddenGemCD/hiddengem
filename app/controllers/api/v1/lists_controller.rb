@@ -2,12 +2,11 @@
   before_action :set_list, only: [:show, :update, :destroy]
 
   def index
-   @lists = List.all
-
-   render json: {
-     lists: @lists
-   }
- end
+    @lists = List.all
+    render json: {
+      lists: @lists
+    }
+  end
 
  def show_user_lists
   @user_lists = List.where(user_id: params[:id] )
