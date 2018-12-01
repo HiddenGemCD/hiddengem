@@ -17,6 +17,8 @@ gem 'simple_form'
 gem 'uglifier'
 gem 'webpacker'
 
+gem "pundit"
+
 group :development do
   gem 'web-console', '>= 3.3.0'
 end
@@ -29,3 +31,6 @@ group :development, :test do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'dotenv-rails'
 end
+
+
+gem 'rest-client'

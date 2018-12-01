@@ -3,5 +3,18 @@
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
+  # movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+
+# http://localhost:3000/api/v1/users/1/cards
+# create card
+# {
+# 	"card": 
+# 		{
+# 			"name": "test-card-2-without list",
+# 			"description": "a test description for card 2",
+# 			"user_id": 1
+# 		}
+# }
